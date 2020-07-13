@@ -5,8 +5,7 @@ This JavaScript app allows users to sign in to OKTA using their username and pas
 ## How it works
 
 The diagram below explains the overall flow from a user accessing the sample app to gaining the access to an AWS Resource.
-![Image of the flow](https://media-exp1.licdn.com/dms/image/C5612AQGRXdmf517x2A/article-inline_image-shrink_1000_1488/0?e=1600300800&v=beta&t=CLMJz9Zbn3xGv5aJRRjfuKyQLUXF6iSvRS50xJKBdtY)
-
+![Image of the flow](/images/okta-arch.PNG)
 
 1. The user accesses the sample app and clicks on Sign In with OKTA button.
 2. The app redirects the user to OKTA for signing in. After successful authentication, the app receives an ID token from OKTA.
