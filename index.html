@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cognito OIDC Sample</title>
+</head>
+<body>
+    <h2>Sample App for Login </h2>
+    <h2>Amazon Cognito and OpenID Connect</h2>
+
+    <button onclick="login()">Sign In with OKTA</button>   
+</body>
+<script type="text/javascript">
+
+function login() {
+
+    var client_id = '<client id>';
+         
+    var redirect_uri = '<callback URL>';
+
+    var url = 
+        'https://<org>.okta.com/oauth2/default/v1/authorize'
+        + '?response_type=token id_token'
+        + '&scope=openid'
+        + '&nonce=abc'
+        + '&state=some'
+        + '&client_id=' + client_id 
+        + '&redirect_uri=' + redirect_uri;
+
+    // Redirect the user to OKTA
+    window.location.replace(url);
+}
+
+</script>
+</html>

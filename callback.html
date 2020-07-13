@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cognito OIDC Sample</title>
+    <script src="aws-sdk.js"></script>
+</head>
+<body onload="callback()">
+    <h2>Sample App for Login </h2>
+    <h2>Amazon Cognito and OpenID Connect</h2>
+    <p>Results after authentication with OKTA:</p>
+    <p>
+        <span id="results" style="color:#FF0000"></span>
+    </p>
+</body>
+<script type="text/javascript">          
+    function callback() {
+        var url = window.location.href;
+        printMessage('Working')
+
+        // Catch errors if any
+        var error = url.match('error=([^&]*)')
+        if (error) {
+            var description = url.match('error_description=([^&]*)')
+            printMessage('Error: ' + error[1] + '<br>Description: ' + description[1] + '</br>');
+            return;
+        }
+
+        // Find id_token
+        var match = url.match('id_token=([^&]*)');
+        if (match) {
+            var id_token = match[1];
+            if (id_token) {
+                // Call Cognito with the id_token
+                makeCognitoRequest(id_token);
+            }else{
+                printMessage('Error: Could not retrieve id token from the URL');
+            }
+        }else{
+            printMessage('Error: There was no id token in the URL');
+        }
+    }
+
+    function makeCognitoRequest(id_token) {
+        var aws_region = 'us-east-1';
+        var provider_url = '<okta_provider_url>';  //Must be equal to the token issuer
+        var logins = {};
+        logins[provider_url] = id_token;
+        var pool_id = '<Identity_Pool_ID>';
+        
+        // Parameters required for CognitoIdentityCredentials
+        var params = {
+            IdentityPoolId: pool_id,
+            Logins: logins
+        };
+
+        AWS.config.region = aws_region;
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
+
+        AWS.config.credentials.get(function (err) {
+            if (err) {
+                printMessage(err);
+            }else{      // success 
+                    printMessage('Hii from AWS Cognito, Now you can hit api gateway or initialize any other AWS Service automatically. This block takes care of the authentication');                
+            }
+        });     
+    }
+
+    function printMessage(messageString){
+       document.getElementById("results").innerHTML = messageString;
+    }    
+
+</script>
+</html>
